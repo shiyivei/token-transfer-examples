@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: aliceblue;
 }
 
 .App-logo {
@@ -13,15 +14,153 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
+.App-Header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: calc(7.5px + 3vmin);
+  /* color: black;  */
+  background: #f8f8f8;
+  border: 0 solid #a9a9ad;
+  height: 83px;
+  /* border-bottom: bold; */
+  box-shadow: 0px 15px 10px -15px #000;
+}
+.Header-Wallet {
+  width: 36px;
+  height: 25px;
+  color: black;
+  font-size: 18px;
+  position: relative;
+  top: 45px;
+  border-bottom: bold;
+  font-weight: bold;
+}
+.Header-Wallet_details {
+  width: 64px;
+  height: 22px;
+  color: black;
+  font-size: 16px;
+  position: relative;
+  top: 5px;
+  left: 130px;
+}
+
+.App-Body {
+  background-color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(7.5px + 3vmin);
   color: white;
+}
+
+.Coin_logo {
+  color: black;
+  width: 70px;
+  height: 70px;
+  position: relative;
+  top: 60px;
+}
+
+.Coin_name {
+  font-family: PingFang-SC-Heavy;
+  font-size: 24px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: 800;
+  position: relative;
+  top: 90px;
+}
+.Balance {
+  font-family: PingFang-SC-Heavy;
+  font-size: 48px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: 800;
+  position: relative;
+  top: 110px;
+}
+.Get_real_money {
+  font-family: PingFang-SC-Heavy;
+  font-size: 12px;
+  color: #a5a5a5;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 800;
+  position: relative;
+
+  right: 120px;
+  top: 180px;
+}
+.Input_amount {
+  position: relative;
+  outline-style: none;
+  border-radius: 8px;
+  font-size: 24px;
+  top: 190px;
+}
+
+.Input_amount input {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 6px 14px;
+  width: 280px;
+  height: 28px;
+  background-color: #ebebeb;
+}
+
+.Wallet_address {
+  font-family: PingFang-SC-Heavy;
+  font-size: 12px;
+  color: #a5a5a5;
+  letter-spacing: 0;
+  text-align: center;
+  font-weight: 800;
+  position: relative;
+  top: 210px;
+  right: 120px;
+}
+
+.Input_address {
+  position: relative;
+  outline-style: none;
+  border-radius: 8px;
+  font-size: 24px;
+  top: 220px;
+}
+
+.Input_address input {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 6px 14px;
+  width: 280px;
+  height: 20x;
+  background-color: #ebebeb;
+}
+
+.Transfer_button {
+  position: relative;
+  outline-style: none;
+  border-radius: 10px;
+  top: 270px;
+}
+
+.Transfer_button button {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px 14px;
+  width: 310px;
+  height: 50px;
+  background: #989898;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 800;
 }
 
 .App-link {
@@ -36,3 +175,15 @@
     transform: rotate(360deg);
   }
 }
+
+/* 样式样例 */
+/* .App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+} */
