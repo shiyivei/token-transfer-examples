@@ -5,78 +5,19 @@ import { nanoid } from "nanoid";
 import CONTRACT_ADDRESS from "./utilis/contract_address";
 import PRIVATE_KEY from "./utilis/env";
 import TOKEN_ADDRESS from "./utilis/token_address";
+import { getValue } from "@testing-library/user-event/dist/utils";
 
 const Big = require("big.js");
 
-// declare a variable via interface
-interface IProps {
+// pass value need to define
+interface IPropos {
   title: string;
-  age: number;
-  onMyClick: any;
 }
-
-interface IState {
-  count: number;
-}
-
-// impl the interface above
-export default class Reward extends React.Component<
-  IProps,
-  IState
-> {
-  // set default value
-  public constructor(props: IProps) {
-    super(props);
-
-    // initial value
-    this.state = {
-      count: 1000,
-    };
-
-    // bind and change value
-    this.clickHandler =
-      this.clickHandler.bind(this);
-
-    this.clickSendMessageHandler =
-      this.clickSendMessageHandler.bind(this);
-  }
-
-  // implement
-  // public readonly state: Readonly<IState> = {
-  //   count: 1000,
-  // };
-
-  // implement a handler
-  public clickHandler() {
-    this.setState({
-      count: 2000,
-    });
-  }
-
-  public clickSendMessageHandler() {
-    console.log("test Send Message");
-    this.props.onMyClick("200");
-  }
+export default class Reward extends React.Component {
+  // balance = get_iotex_test_balance();
 
   public render() {
-    const { title, age } = this.props;
-    return (
-      <>
-        <div>
-          Hello {title}
-          {age}
-        </div>
-        <div>{this.state.count}</div>
-        <button onClick={this.clickHandler}>
-          Click
-        </button>
-        <button
-          onClick={this.clickSendMessageHandler}
-        >
-          Send Message
-        </button>
-      </>
-    );
+    return <>{10000}</>;
   }
 }
 
@@ -121,8 +62,8 @@ console.log("创建的合约实例:", reward);
 const test_address =
   "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
 
-const get_iotex_test_balance = async () =>
-  web3.eth
+const get_iotex_test_balance = async () => {
+  let result = web3.eth
     .getBalance(test_address)
     .then(function (balance: any) {
       let iotxBalance = Big(balance).div(
@@ -131,11 +72,22 @@ const get_iotex_test_balance = async () =>
       console.log(
         "%s 账户余额: %s IOTX",
         test_address,
-        iotxBalance.toFixed(18)
+        iotxBalance.toFixed(2)
       );
+      return iotxBalance.toFixed(2);
     });
 
-get_iotex_test_balance();
+  return result;
+};
+
+let res = get_iotex_test_balance();
+let sss = res.then((s) => {
+  console.log(
+    "----------------------------------------------------------------",
+    s
+  );
+  return s;
+});
 
 //3.查询合约某个报告是否已经存储（出具）
 
@@ -206,24 +158,25 @@ const store_reportHash = async (
     );
 
   console.log(
-    "Transaction successful with hash",
+    "Transaction process with hash",
     signed
   );
 
   web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
-      console.log("receipt", receipt);
+      console.log("store_hash receipt", receipt);
+      console.log("store_hash finished");
     });
 };
 
 console.log("获取到的随机报告哈希是:", r_hash);
 
-get_report_hash_store_status(r_hash);
+// get_report_hash_store_status(r_hash);
 
-store_reportHash(r_hash);
+// store_reportHash(r_hash);
 
-get_report_hash_store_status(r_hash);
+// get_report_hash_store_status(r_hash);
 
 //7 存储手表
 
@@ -239,7 +192,7 @@ const store_watch = async (imei: string) => {
   const tx: any = {
     from: address,
     to: contract_address,
-    gas: 50000,
+    gas: 5000000,
     data: reward.methods
       .store_watch(imei)
       .encodeABI(),
@@ -253,21 +206,145 @@ const store_watch = async (imei: string) => {
     );
 
   console.log(
-    "Transaction successful with hash",
+    "Transaction process with hash:",
     signed
   );
 
   web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
-      console.log("receipt", receipt);
+      console.log("store_watch receipt", receipt);
+      console.log("store_watch finished");
+    });
+};
+
+const get_next_reward_time = async (
+  r_hash: string
+) => {
+  console.log(
+    "call get_next_reward_time function......"
+  );
+
+  const address =
+    "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
+
+  //构建交易对象
+  const tx: any = {
+    from: address,
+    to: contract_address,
+    gas: 5000000,
+    data: reward.methods
+      .get_next_reward_time(r_hash)
+      .encodeABI(),
+  };
+
+  //签名
+  const signed: any =
+    await web3.eth.accounts.signTransaction(
+      tx,
+      PRIVATE_KEY.private_key
+    );
+
+  console.log(
+    "Transaction process with hash:",
+    signed
+  );
+
+  web3.eth
+    .sendSignedTransaction(signed.rawTransaction)
+    .on("receipt", (receipt) => {
+      console.log("store_watch receipt", receipt);
+      console.log(
+        "get_next_reward_time finished"
+      );
     });
 };
 
 console.log("获取到的随机IMEI码:", imei);
 
-get_watch_store_status(imei);
-store_watch(imei);
-get_watch_store_status(imei);
+// get_watch_store_status(imei);
+// store_watch(imei);
+// get_watch_store_status(imei);
 
 // 转账
+
+const transfer_erc20 = async (
+  token_address: any,
+  amount: number,
+  imei: string,
+  r_hash: string,
+  to: any
+) => {
+  console.log(
+    "call transfer_erc20 function......"
+  );
+
+  const address =
+    "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
+
+  //构建交易对象
+  const tx: any = {
+    from: address,
+    to: contract_address,
+    gas: 500000,
+    data: reward.methods
+      .transferERC20(
+        token_address,
+        amount,
+        imei,
+        r_hash,
+        to
+      )
+      .encodeABI(),
+  };
+
+  //签名
+  const signed: any =
+    await web3.eth.accounts.signTransaction(
+      tx,
+      PRIVATE_KEY.private_key
+    );
+
+  console.log(
+    "Transaction process with hash:",
+    signed
+  );
+
+  web3.eth
+    .sendSignedTransaction(signed.rawTransaction)
+    .on("receipt", (receipt) => {
+      console.log(
+        "transfer_erc20 receipt",
+        receipt
+      );
+      console.log("transfer_erc20 finished");
+    });
+};
+
+const to: any =
+  "0xec876F62798E65270Ef163f86ec7afE5E7D634e7";
+
+// store_watch("watch2");
+// store_reportHash("hash2");
+
+get_watch_store_status("watch2");
+get_report_hash_store_status("hash2");
+
+const value = async () => {
+  let val = await get_next_reward_time("hash2");
+
+  console.log(
+    "----------------------------------------------------------------",
+    val
+  );
+};
+
+value();
+
+// transfer_erc20(
+//   token_address,
+//   100,
+//   "watch2",
+//   "hash2",
+//   to
+// );

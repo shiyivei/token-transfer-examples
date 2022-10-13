@@ -1,5 +1,4 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import coin_logo from "./components/static/img/coin_logo.png";
 
@@ -8,11 +7,7 @@ import Reward from "./components/Reward";
 const address =
   // "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
   "shiyivei";
-
 class App extends React.Component {
-  addr = get_address(address);
-  age = 27;
-
   public myClickHandler(data: string) {
     console.log(
       "hello, this is from app.tsx",
@@ -38,7 +33,9 @@ class App extends React.Component {
             className="Coin_logo"
           />
           <div className="Coin_name">ART</div>
-          <div className="Balance">100</div>
+          <div className="Balance">
+            <Reward />
+          </div>
           <div className="Get_real_money">
             提现金额
           </div>
