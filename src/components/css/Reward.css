@@ -1,0 +1,27 @@
+.Change-balance button {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px 14px;
+  width: 310px;
+  height: 50px;
+  background: #989898;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+.Send-Message button {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px 14px;
+  width: 310px;
+  height: 50px;
+  background: #989898;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
