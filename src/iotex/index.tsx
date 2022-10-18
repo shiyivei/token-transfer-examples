@@ -70,12 +70,12 @@ const get_contractBalance = async () => {
     .call();
 
   let balance: number = result;
-  console.log(
-    "5.当前合约余额:",
-    Big(balance)
-      .div(10 ** 18)
-      .toFixed(0)
-  );
+  // console.log(
+  //   "5.当前合约余额:",
+  //   Big(balance)
+  //     .div(10 ** 18)
+  //     .toFixed(0)
+  // );
   return Big(balance)
     .div(10 ** 18)
     .toFixed(0);
@@ -89,10 +89,11 @@ const get_report_hash_store_status = async (
   let result = await reward.methods
     .report_is_stored(report_hash)
     .call();
-  console.log(
-    "未病测评报告时是否存储:",
-    `${result}`
-  );
+  // console.log(
+  //   "未病测评报告时是否存储:",
+  //   `${result}`
+  // );
+  return result;
 };
 
 //5.查询某个手表是否存储在合约中
@@ -105,6 +106,8 @@ const get_watch_store_status = async (
     .call();
 
   console.log("脉诊手表是否存储:", `${result}`);
+
+  return result;
 };
 
 //6.存储报告哈希
@@ -143,12 +146,19 @@ const store_reportHash = async (
     signed
   );
 
-  web3.eth
+  await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
       console.log("store_hash receipt", receipt);
       console.log("store_hash finished");
     });
+
+  const report_status =
+    await get_report_hash_store_status(
+      report_hash
+    );
+
+  return report_status;
 };
 
 //7.存储报告哈希
@@ -207,14 +217,17 @@ const store_watch = async (imei: string) => {
     signed
   );
 
-  web3.eth
+  await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
       console.log("store_watch receipt", receipt);
       console.log("%s stored:", imei);
     });
 
-  return imei;
+  const store_status =
+    await get_watch_store_status(imei);
+
+  return store_status;
 };
 
 // console.log("获取到的随机IMEI码:", imei);

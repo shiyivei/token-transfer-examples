@@ -1,5 +1,5 @@
 import React from "react";
-import "./css/Reward.css";
+import "./css/Components.css";
 
 // 1. 通过接口声明参数(多个)
 interface IPropos {

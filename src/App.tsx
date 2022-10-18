@@ -4,13 +4,26 @@ import coin_logo from "./components/static/img/coin_logo.png";
 import { useState } from "react";
 
 import Reward from "./components/Reward";
-import Contract_owner from "./components/IotexCalls";
+import Contract_balance from "./components/ContractBalance";
+import TransferERC20 from "./components/TransferERC20";
+import * as iotex from "./iotex";
 
 const address =
   // "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
   "shiyivei";
 function App() {
-  const [owner, setOwner] = useState([]);
+  // 固定写法
+  const [balance, setBalance] = useState([]);
+  const [transfererc20, setTransfererc20] =
+    useState([]);
+
+  // 存储手表
+  const getWatchStatus = async (imei: any) => {
+    const watch_status =
+      await iotex.get_watch_store_status(imei);
+
+    console.log(watch_status);
+  };
 
   return (
     <div className="App">
@@ -28,35 +41,13 @@ function App() {
         />
         <div className="Coin_name">ART</div>
         <div className="Balance">
-          <div className="Address">
-            <div className="fc">
-              <Contract_owner
-                owner={owner}
-                setOwner={setOwner}
-              />
-            </div>
-          </div>
+          <Contract_balance
+            balance={balance}
+            setBalance={setBalance}
+          />
         </div>
-        <div className="Get_real_money">
-          提现金额
-        </div>
-        <div className="Input_amount">
-          <input
-            type="text"
-            placeholder="请输入要提取的金额"
-          ></input>
-        </div>
-        <div className="Wallet_address">
-          钱包地址
-        </div>
-        <div className="Input_address">
-          <input
-            type="text"
-            placeholder="粘贴钱包地址"
-          ></input>
-        </div>
-        <div className="Transfer_button">
-          <button>提现</button>
+        <div className="Transfer">
+          <TransferERC20 />
         </div>
       </div>
     </div>
