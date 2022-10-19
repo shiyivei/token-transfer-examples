@@ -4,6 +4,9 @@ import { nanoid } from "nanoid";
 import CONTRACT_ADDRESS from "./utilis/contract_address";
 import PRIVATE_KEY from "./utilis/env";
 import TOKEN_ADDRESS from "./utilis/token_address";
+import fetch from "node-fetch";
+import axios from "axios";
+
 const Big = require("big.js");
 
 // Initialize web3.js using the IoTeX Babel endpoint
@@ -346,6 +349,23 @@ const block = async () => {
       console.log(log);
     });
 };
+
+const get_user_asset = async () => {
+  let url: string = "assets/?user_id=100000000";
+  try {
+    const response = await axios.get(url);
+    console.log(
+      "--------------------------------:",
+      response
+    );
+  } catch (exception) {
+    process.stderr.write(
+      `ERROR received from ${url}: ${exception}\n`
+    );
+  }
+};
+
+get_user_asset();
 
 export {
   get_owner,
