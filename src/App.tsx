@@ -6,6 +6,7 @@ import { useState } from "react";
 import Reward from "./components/Reward";
 import Contract_balance from "./components/ContractBalance";
 import TransferERC20 from "./components/TransferERC20";
+import ERC20_balance from "./components/ERC20Balance";
 import * as iotex from "./iotex";
 
 const address =
@@ -14,6 +15,10 @@ const address =
 function App() {
   // 固定写法
   const [balance, setBalance] = useState([]);
+
+  const [erc20Balance, setErc20Balance] =
+    useState([]);
+
   const [transfererc20, setTransfererc20] =
     useState([]);
 
@@ -48,6 +53,10 @@ function App() {
         </div>
         <div className="Transfer">
           <TransferERC20 />
+          <ERC20_balance
+            erc20Balance={erc20Balance}
+            setErc20Balance={setErc20Balance}
+          />
         </div>
       </div>
     </div>

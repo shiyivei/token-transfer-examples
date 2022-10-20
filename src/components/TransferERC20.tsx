@@ -2,12 +2,7 @@ import * as iotex from "../iotex";
 import { useEffect, useState } from "react";
 import "./css/Components.css";
 
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-} from "antd";
+import { Button, Form, Input } from "antd";
 
 const TransferERC20 = ({
   visible,
@@ -22,6 +17,7 @@ const TransferERC20 = ({
       values.username,
       values.password
     );
+
     const watch_status = await iotex.store_watch(
       values.username
     );
@@ -39,6 +35,20 @@ const TransferERC20 = ({
     console.log(
       "-------- report_status --------:",
       report_status
+    );
+
+    let ART_balance;
+    await iotex
+      .get_user_asset(values.username)
+      .then((res) => {
+        ART_balance = res;
+
+        return ART_balance;
+      });
+
+    console.log(
+      "获取到的用户ART余额是:",
+      ART_balance
     );
   };
 

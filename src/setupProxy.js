@@ -6,7 +6,11 @@ module.exports = function (app) {
   app.use(
     createProxyMiddleware("/assets", {
       target: "http://localhost:80",
+      pathRewrite: {
+        "^/assets": "",
+      },
       changeOrigin: true,
+      secure: false,
     })
   );
 };

@@ -350,24 +350,23 @@ const block = async () => {
     });
 };
 
-const get_user_asset = async () => {
-  let url: string = "assets/?user_id=100000000";
-  try {
-    const response = await axios.get(url);
+const get_user_asset = async (email: string) => {
+  let url: string = "/assets/?email=" + email;
+
+  let data;
+  await axios.get(url).then((res) => {
+    data = JSON.stringify(res.data);
     console.log(
-      "--------------------------------:",
-      response
+      "--------------------------------data:",
+      data
     );
-  } catch (exception) {
-    process.stderr.write(
-      `ERROR received from ${url}: ${exception}\n`
-    );
-  }
+  });
+
+  return data;
 };
 
-get_user_asset();
-
 export {
+  get_user_asset,
   get_owner,
   get_iotex_test_balance,
   get_contractBalance,
