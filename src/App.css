@@ -80,7 +80,7 @@
   letter-spacing: 0;
   font-weight: 800;
   position: relative;
-  top: 120px;
+  top: 110px;
 }
 .Get_real_money {
   font-family: PingFang-SC-Heavy;
@@ -142,11 +142,18 @@
   background-color: #ebebeb;
 }
 
-.Transfer {
+.ERC20Balance {
   position: relative;
   outline-style: none;
   border-radius: 10px;
   top: 140px;
+}
+
+.Transfer {
+  position: relative;
+  outline-style: none;
+  border-radius: 10px;
+  top: 160px;
 }
 
 .Transfer button {

@@ -14,10 +14,10 @@ const Contract_balance = ({
   const getContractBalance = async () => {
     const currentBalance =
       await iotex.get_contractBalance();
-    // console.log(
-    //   "-------- contract balance --------:",
-    //   currentBalance
-    // );
+    console.log(
+      "-------- contract balance --------:",
+      currentBalance
+    );
     if (currentBalance) {
       setBalance(currentBalance);
     }
@@ -31,7 +31,7 @@ const Contract_balance = ({
   return (
     <>
       <div>
-        <div>{balance}</div>
+        <div>{balance} ART</div>
       </div>
     </>
   );

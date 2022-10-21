@@ -4,7 +4,6 @@ import { nanoid } from "nanoid";
 import CONTRACT_ADDRESS from "./utilis/contract_address";
 import PRIVATE_KEY from "./utilis/env";
 import TOKEN_ADDRESS from "./utilis/token_address";
-import fetch from "node-fetch";
 import axios from "axios";
 
 const Big = require("big.js");
@@ -276,6 +275,8 @@ const set_reward_amount = async (
       );
       console.log("set_reward_amount finished");
     });
+
+  return true;
 };
 
 const to: any =
@@ -328,6 +329,9 @@ const transfer_erc20 = async (
       );
       console.log("set_reward_amount finished");
     });
+
+  let result = true;
+  return result;
 };
 
 const moonbeam_web3 = new Web3(
@@ -351,19 +355,22 @@ const block = async () => {
 };
 
 const get_user_asset = async (email: string) => {
-  let url: string = "/assets/?email=" + email;
+  let url: string =
+    "assets/assets/?email=" + email;
 
   let data;
   await axios.get(url).then((res) => {
     data = JSON.stringify(res.data);
-    console.log(
-      "--------------------------------data:",
-      data
-    );
+    // console.log(
+    //   "--------------------------------data:",
+    //   data
+    // );
   });
 
   return data;
 };
+
+// get_user_asset("chenhongjun@advaita.world");
 
 export {
   get_user_asset,

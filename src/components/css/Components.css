@@ -74,3 +74,43 @@
   position: relative;
   top: 10px;
 }
+
+.QueryErc20Balance Input {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 6px 14px;
+  width: 280px;
+  height: 28px;
+  background-color: #ebebeb;
+  top: 20px;
+}
+
+.QueryErc20Balance Button {
+  outline-style: none;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  padding: 6px 14px;
+  width: 320px;
+  height: 55px;
+  background: #989898;
+  color: #fff;
+  font-size: 16px;
+  letter-spacing: 0;
+  font-weight: 800;
+}
+
+.Erc20Balance {
+  color: black;
+  position: relative;
+  text-align: right;
+  top: 21px;
+  left: 215px;
+  width: 55%;
+}
+
+.QueryBalance {
+  color: black;
+  position: relative;
+  left: 10px;
+}

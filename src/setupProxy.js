@@ -4,10 +4,10 @@ const {
 
 module.exports = function (app) {
   app.use(
-    createProxyMiddleware("/assets", {
+    createProxyMiddleware("/api", {
       target: "http://localhost:80",
       pathRewrite: {
-        "^/assets": "",
+        "^/api": "",
       },
       changeOrigin: true,
       secure: false,

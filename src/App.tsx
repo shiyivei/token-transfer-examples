@@ -44,19 +44,21 @@ function App() {
           alt="logo"
           className="Coin_logo"
         />
-        <div className="Coin_name">ART</div>
+        <div className="Coin_name">总奖金池</div>
         <div className="Balance">
           <Contract_balance
             balance={balance}
             setBalance={setBalance}
           />
         </div>
-        <div className="Transfer">
-          <TransferERC20 />
+        <div className="ERC20Balance">
           <ERC20_balance
             erc20Balance={erc20Balance}
             setErc20Balance={setErc20Balance}
           />
+        </div>
+        <div className="Transfer">
+          <TransferERC20 />
         </div>
       </div>
     </div>
