@@ -19,63 +19,51 @@ const TransferERC20 = ({
       values.password
     );
 
+    // 存储手表
     let imei: string = nanoid();
     const watch_status = await iotex.store_watch(
       imei
     );
 
+    // 存储报告
     let report_hash: string = nanoid();
     const report_status =
       await iotex.store_reportHash(report_hash);
 
-    console.log(
-      "-------- watch_status --------:",
-      imei
-    );
-
-    console.log(
-      "-------- report_status --------:",
-      report_hash
-    );
-
-    // let ART_balance;
-    // await iotex
-    //   .get_user_asset(values.username)
-    //   .then((res) => {
-    //     ART_balance = res;
-
-    //     return ART_balance;
-    //   });
-
-    // console.log(
-    //   "获取到的用户ART余额是:",
-    //   ART_balance
-    // );
-
+    // 设置转账金额
     const set_transfer_amount =
       await iotex.set_reward_amount(
         values.username
       );
 
-    console.log(
-      "-------- set transfer amount --------:",
-      set_transfer_amount
-    );
-
+    // 转账
     let token_address: string =
       "0xc72a1eb29caA01c74A88C49bcdEd19b326b17cFC";
 
-    // await iotex.transfer_erc20(
-    //   token_address,
-    //   imei,
-    //   report_hash,
-    //   values.password
-    // );
+    const balance1 =
+      await iotex.get_contractBalance();
+    console.log(
+      "-------- transfer before --------:",
+      balance1
+    );
 
-    // console.log(
-    //   "-------- transfer rc20 --------:",
-    //   true
-    // );
+    const transfererc20 =
+      await iotex.transfer_erc20(
+        token_address,
+        imei,
+        report_hash,
+        values.password
+      );
+
+    const balance2 =
+      await iotex.get_contractBalance();
+    console.log(
+      "-------- after transfer --------:",
+      balance2
+    );
+
+    if (balance1 - balance2 == values.username)
+      console.log("transfer success");
   };
 
   const onFinishFailed = (errorInfo: any) => {

@@ -119,9 +119,7 @@ const r_hash = nanoid();
 const store_reportHash = async (
   report_hash: string
 ) => {
-  console.log(
-    "call store_reportHash function......"
-  );
+  console.log("正在存储报告哈希......");
 
   const address =
     "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
@@ -176,7 +174,12 @@ const get_reward_amount = async () => {
       .div(10 ** 18)
       .toFixed(0)
   );
+  return Big(result)
+    .div(10 ** 18)
+    .toFixed(0);
 };
+
+get_reward_amount();
 
 const get_next_reward_time = async (
   imei: string
@@ -192,7 +195,7 @@ const get_next_reward_time = async (
 const imei = nanoid();
 
 const store_watch = async (imei: string) => {
-  console.log("call store_watch function......");
+  console.log("正在存储手表......");
 
   const address =
     "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
@@ -239,10 +242,14 @@ const store_watch = async (imei: string) => {
 const set_reward_amount = async (
   amount: number
 ) => {
-  console.log("call set amount function......");
+  console.log("正在设置转帐金额......");
 
   const address =
     "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
+
+  amount = Big(amount)
+    .times(10 ** 18)
+    .toFixed(0);
 
   //构建交易对象
   const tx: any = {
@@ -266,7 +273,7 @@ const set_reward_amount = async (
     signed
   );
 
-  web3.eth
+  await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
       console.log(
@@ -276,11 +283,18 @@ const set_reward_amount = async (
       console.log("set_reward_amount finished");
     });
 
-  return true;
-};
+  let set_amount: any;
 
-const to: any =
-  "0xec876F62798E65270Ef163f86ec7afE5E7D634e7";
+  const reward_amount =
+    await get_reward_amount().then((amount) => {
+      console.log(
+        "---------reward amount -----------",
+        (set_amount = amount)
+      );
+    });
+
+  return set_amount;
+};
 
 const transfer_erc20 = async (
   token_contract_address: string,
@@ -288,7 +302,7 @@ const transfer_erc20 = async (
   report_hash: string,
   receive_address: string
 ) => {
-  console.log("call set amount function......");
+  console.log("正在转账......");
 
   const address =
     "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
@@ -320,18 +334,16 @@ const transfer_erc20 = async (
     signed
   );
 
-  web3.eth
+  await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
       console.log(
         "set reward amount receipt",
         receipt
       );
-      console.log("set_reward_amount finished");
     });
 
-  let result = true;
-  return result;
+  console.log("转账已完成");
 };
 
 const moonbeam_web3 = new Web3(
@@ -355,8 +367,7 @@ const block = async () => {
 };
 
 const get_user_asset = async (email: string) => {
-  let url: string =
-    "assets/assets/?email=" + email;
+  let url: string = "api/assets/?email=" + email;
 
   let data;
   await axios.get(url).then((res) => {
