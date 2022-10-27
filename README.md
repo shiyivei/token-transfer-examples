@@ -45,13 +45,13 @@ You can learn more in the [Create React App documentation](https://facebook.gith
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# Test
+# Advaita-front 开发文档
 
-```
-611GxxI-8TEL1WmRQC8Fj
-```
+目前已经实现存储报告/手表，并且设置转账金额完，成转账
 
-```
-lxy69TU36hSutSp3AiJK_
-```
+未完成的任务：
+
+1. 存储手表 / 存储哈希设计为API，当业务端有手表绑定 / 报告出具时自动发送请求进行存储
+2. 24h/只能领取一次
+3. 领取后个人可提现余额/合约余额更新
 
