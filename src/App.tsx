@@ -31,37 +31,43 @@ function App() {
   };
 
   return (
-    <div className="App">
-      <div className="App-Header">
-        <div className="Header-Wallet">钱包</div>
-        <p className="Header-Wallet_details">
-          钱包明细
-        </p>
-      </div>
-      <div className="App-Body">
-        <img
-          src={coin_logo}
-          alt="logo"
-          className="Coin_logo"
-        />
-        <div className="Coin_name">总奖金池</div>
-        <div className="Balance">
-          <Contract_balance
-            balance={balance}
-            setBalance={setBalance}
+    <>
+      <div className="App">
+        <div className="App-Header">
+          <div className="Header-Wallet">
+            钱包
+          </div>
+          <p className="Header-Wallet_details">
+            钱包明细
+          </p>
+        </div>
+        <div className="App-Body">
+          <img
+            src={coin_logo}
+            alt="logo"
+            className="Coin_logo"
           />
-        </div>
-        <div className="ERC20Balance">
-          <ERC20_balance
-            erc20Balance={erc20Balance}
-            setErc20Balance={setErc20Balance}
-          />
-        </div>
-        <div className="Transfer">
-          <TransferERC20 />
+          <div className="Coin_name">
+            总奖金池
+          </div>
+          <div className="Balance">
+            <Contract_balance
+              balance={balance}
+              setBalance={setBalance}
+            />
+          </div>
+          <div className="ERC20Balance">
+            <ERC20_balance
+              erc20Balance={erc20Balance}
+              setErc20Balance={setErc20Balance}
+            />
+          </div>
+          <div className="Transfer">
+            <TransferERC20 />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
