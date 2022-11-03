@@ -19,16 +19,10 @@ const TransferERC20 = ({
       values.password
     );
 
-    // 存储手表
     let imei: string = nanoid();
-    const watch_status = await iotex.store_watch(
-      imei
-    );
 
     // 存储报告
     let report_hash: string = nanoid();
-    const report_status =
-      await iotex.store_reportHash(report_hash);
 
     // 设置转账金额
     const set_transfer_amount =

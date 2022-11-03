@@ -55,3 +55,39 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 2. 24h/只能领取一次
 3. 领取后个人可提现余额/合约余额更新
 
+## 1 API 验证
+
+## 1.1 验证要求
+
+1. 验证访问的合法性
+2. 参数不被修改
+3. 确保请求的唯一性
+
+```
+http://localhost:3000/report/shiyivei02/02
+```
+
+1：对请求整体进行签名，添加签名字段
+
+```
+http://localhost:3000/report/shiyivei02/02/sign_value
+```
+
+2:  增加api_key字段，本地对应api_secret
+
+```
+http://localhost:3000/report/shiyivei02/02/api_key/sign_value
+```
+
+3: 增加timestamp字段和nonstr以确保请求的唯一性
+
+```
+http://localhost:3000/report/shiyivei02/02/ts/nonstr/api_key/sign_value
+```
+
+## 1.2 加密方案
+
+使用AES对称加密
+
+
+

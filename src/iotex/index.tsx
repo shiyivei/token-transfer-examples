@@ -91,10 +91,10 @@ const get_report_hash_store_status = async (
   let result = await reward.methods
     .report_is_stored(report_hash)
     .call();
-  // console.log(
-  //   "未病测评报告时是否存储:",
-  //   `${result}`
-  // );
+  console.log(
+    "未病测评报告时是否存储:",
+    `${result}`
+  );
   return result;
 };
 

@@ -18,24 +18,27 @@ const URLRouter = () => {
       <BrowserRouter>
         <Routes>
           <Route
-            path="/report/:hash"
+            path="/report/:hash/:ts/:nonce/:api_key/:signature"
             element={<Report />}
           ></Route>
           <Route
-            path="/watch/:imei"
+            path="/watch/:imei/:ts/:nonce/:api_key/:signature"
             element={<Watch />}
           ></Route>
           <Route
-            path="/bought/:order_id"
+            path="/bought/:order_id/:ts/:nonce/:api_key/:signature"
             element={<Bought />}
           ></Route>
           <Route
-            path="/receive/:receive_id"
+            path="/receive/:receive_id/:ts/:nonce/:api_key/:signature"
             element={<Received />}
+          ></Route>
+          <Route
+            path="/"
+            element={<App />}
           ></Route>
         </Routes>
       </BrowserRouter>
-      <App />
     </>
   );
 };

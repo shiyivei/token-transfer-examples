@@ -1,9 +1,28 @@
 import React from "react";
 import { useParams } from "react-router-dom";
+import * as api from "./apikey/apikey";
 
 export default function Bought() {
-  const { order_id } = useParams();
-  console.log("获取到的order id是:", order_id);
+  const {
+    order_id,
+    ts,
+    nonce,
+    api_key,
+    signature,
+  } = useParams();
+
+  api
+    .decrypt_signature(
+      order_id,
+      ts,
+      nonce,
+      api_key,
+      signature
+    )
+    .then(function (result) {
+      if (result == true) {
+      }
+    });
 
   return (
     <div>
