@@ -25,6 +25,6 @@ export default function Watch() {
         store_watch(imei);
       }
     });
-
+  store_watch(imei);
   return <div>{/* <h1>Watch Page</h1> */}</div>;
 }

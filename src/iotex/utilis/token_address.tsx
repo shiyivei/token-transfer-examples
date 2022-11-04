@@ -1,3 +1,0 @@
-const TOKEN_ADDRESS =
-  "0xc72a1eb29caA01c74A88C49bcdEd19b326b17cFC";
-export default TOKEN_ADDRESS;

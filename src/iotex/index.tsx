@@ -1,9 +1,11 @@
 import Web3 from "web3";
-import ABI from "./utilis/abi";
+import aum_reward_abi from "./utilis/aum_reward_abi";
 import { nanoid } from "nanoid";
-import CONTRACT_ADDRESS from "./utilis/contract_address";
+import aum_reward_address from "./utilis/aum_reward_address";
 import PRIVATE_KEY from "./utilis/env";
-import TOKEN_ADDRESS from "./utilis/token_address";
+import token_address from "./utilis/aum_address";
+import storage_abi from "./utilis/watch_report_storage_abi";
+import storage_address from "./utilis/watch_report_storage_address";
 import axios from "axios";
 
 const Big = require("big.js");
@@ -15,31 +17,40 @@ const web3 = new Web3(
   )
 );
 
-const contract_address: any = CONTRACT_ADDRESS;
-
 // console.log("1.合约地址是:", contract_address);
 
-//合约ABI
-const abi: any = ABI;
-
-//合约实例
-const reward = new web3.eth.Contract(
-  abi,
-  contract_address
+//奖励合约实例
+const aum_reward = new web3.eth.Contract(
+  aum_reward_abi,
+  aum_reward_address
 );
 
-//2.获取合约信息
-// console.log("2.创建的合约实例:", reward);
+console.log("aum_reward合约实例", aum_reward);
+
+//存储合约实例
+const watch_and_report_storage =
+  new web3.eth.Contract(
+    storage_abi,
+    storage_address
+  );
+
+// 获取合约信息
+console.log(
+  "storage合约实例",
+  watch_and_report_storage
+);
 
 //1.查看合约创建者
 const get_owner = async () => {
-  var owner = await reward.methods
+  var owner = await aum_reward.methods
     .contract_owner()
     .call();
-  // console.log("3.合约创建者:", `${owner}`);
+  console.log("合约归属人:", `${owner}`);
 
   return owner;
 };
+
+get_owner();
 
 //2.查询创建者账户余额
 const test_address =
@@ -65,19 +76,19 @@ const get_iotex_test_balance = async () => {
 
 //3.查询当前合约余额
 
-const token_address = TOKEN_ADDRESS;
+// const token_address = TOKEN_ADDRESS;
 const get_contractBalance = async () => {
-  let result = await reward.methods
+  let result = await aum_reward.methods
     .get_contract_balance(token_address)
     .call();
 
   let balance: number = result;
-  // console.log(
-  //   "5.当前合约余额:",
-  //   Big(balance)
-  //     .div(10 ** 18)
-  //     .toFixed(0)
-  // );
+  console.log(
+    "当前合约余额:",
+    Big(balance)
+      .div(10 ** 18)
+      .toFixed(0)
+  );
   return Big(balance)
     .div(10 ** 18)
     .toFixed(0);
@@ -88,9 +99,10 @@ const get_contractBalance = async () => {
 const get_report_hash_store_status = async (
   report_hash: string
 ) => {
-  let result = await reward.methods
-    .report_is_stored(report_hash)
-    .call();
+  let result =
+    await watch_and_report_storage.methods
+      .report_is_stored(report_hash)
+      .call();
   console.log(
     "未病测评报告时是否存储:",
     `${result}`
@@ -103,9 +115,10 @@ const get_report_hash_store_status = async (
 const get_watch_store_status = async (
   imei: string
 ) => {
-  let result = await reward.methods
-    .watch_is_stored(imei)
-    .call();
+  let result =
+    await watch_and_report_storage.methods
+      .watch_is_stored(imei)
+      .call();
 
   console.log("脉诊手表是否存储:", `${result}`);
 
@@ -113,8 +126,6 @@ const get_watch_store_status = async (
 };
 
 //6.存储报告哈希
-
-const r_hash = nanoid();
 
 const store_reportHash = async (
   report_hash: string
@@ -127,10 +138,10 @@ const store_reportHash = async (
   //构建交易对象
   const tx: any = {
     from: address,
-    to: contract_address,
+    to: storage_address,
     gas: 50000,
-    data: reward.methods
-      .store_reportHash(report_hash)
+    data: watch_and_report_storage.methods
+      .store_report(report_hash)
       .encodeABI(),
   };
 
@@ -149,7 +160,10 @@ const store_reportHash = async (
   await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
-      console.log("store_hash receipt", receipt);
+      console.log(
+        "store_hash receipt",
+        receipt.logs.length
+      );
       console.log("store_hash finished");
     });
 
@@ -160,37 +174,6 @@ const store_reportHash = async (
 
   return report_status;
 };
-
-//7.存储报告哈希
-
-const get_reward_amount = async () => {
-  let result = await reward.methods
-    .reward_amount()
-    .call();
-
-  console.log(
-    "当前提现金额:",
-    Big(result)
-      .div(10 ** 18)
-      .toFixed(0)
-  );
-  return Big(result)
-    .div(10 ** 18)
-    .toFixed(0);
-};
-
-get_reward_amount();
-
-const get_next_reward_time = async (
-  imei: string
-) => {
-  let result = await reward.methods
-    .get_next_reward_time(imei)
-    .call();
-  console.log("6.下次提现时间:", `${result}`);
-};
-
-//7 存储手表
 
 const imei = nanoid();
 
@@ -203,9 +186,9 @@ const store_watch = async (imei: string) => {
   //构建交易对象
   const tx: any = {
     from: address,
-    to: contract_address,
+    to: storage_address,
     gas: 5000000,
-    data: reward.methods
+    data: watch_and_report_storage.methods
       .store_watch(imei)
       .encodeABI(),
   };
@@ -225,7 +208,10 @@ const store_watch = async (imei: string) => {
   await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
-      console.log("store_watch receipt", receipt);
+      console.log(
+        "store_watch receipt",
+        receipt.logs.length
+      );
       console.log("%s stored:", imei);
     });
 
@@ -235,89 +221,28 @@ const store_watch = async (imei: string) => {
   return store_status;
 };
 
-// console.log("获取到的随机IMEI码:", imei);
-
-// 转账
-
-const set_reward_amount = async (
-  amount: number
+const transfer_erc20 = async (
+  token_contract_address: string,
+  receive_address: string,
+  amount: any
 ) => {
-  console.log("正在设置转帐金额......");
-
   const address =
     "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
 
-  amount = Big(amount)
+  const value = Big(amount)
     .times(10 ** 18)
     .toFixed(0);
 
   //构建交易对象
   const tx: any = {
     from: address,
-    to: contract_address,
+    to: aum_reward_address,
     gas: 5000000,
-    data: reward.methods
-      .set_reward_amount(amount)
-      .encodeABI(),
-  };
-
-  //签名
-  const signed: any =
-    await web3.eth.accounts.signTransaction(
-      tx,
-      PRIVATE_KEY.private_key
-    );
-
-  console.log(
-    "Transaction process with hash:",
-    signed
-  );
-
-  await web3.eth
-    .sendSignedTransaction(signed.rawTransaction)
-    .on("receipt", (receipt) => {
-      console.log(
-        "set reward amount receipt",
-        receipt
-      );
-      console.log("set_reward_amount finished");
-    });
-
-  let set_amount: any;
-
-  const reward_amount =
-    await get_reward_amount().then((amount) => {
-      console.log(
-        "---------reward amount -----------",
-        (set_amount = amount)
-      );
-    });
-
-  return set_amount;
-};
-
-const transfer_erc20 = async (
-  token_contract_address: string,
-  watch_id: string,
-  report_hash: string,
-  receive_address: string
-) => {
-  console.log("正在转账......");
-
-  const address =
-    "0xFb7032b3fcfFc0A41E96B99AFd663A477819667C";
-
-  //构建交易对象
-  const tx: any = {
-    from: address,
-    to: contract_address,
-    gas: 5000000,
-    data: reward.methods
+    data: aum_reward.methods
       .transfer_erc20(
         token_contract_address,
-        watch_id,
-        report_hash,
-        receive_address
+        receive_address,
+        value
       )
       .encodeABI(),
   };
@@ -334,12 +259,14 @@ const transfer_erc20 = async (
     signed
   );
 
+  console.log("正在转账......");
+
   await web3.eth
     .sendSignedTransaction(signed.rawTransaction)
     .on("receipt", (receipt) => {
       console.log(
-        "set reward amount receipt",
-        receipt
+        "get receipt",
+        receipt.logs.length
       );
     });
 
@@ -381,9 +308,15 @@ const get_user_asset = async (email: string) => {
   return data;
 };
 
+const update_user_asset = async (amount: any) => {
+  let url: string = "api/assets/?value=" + amount;
+  await axios.get(url);
+};
+
 // get_user_asset("chenhongjun@advaita.world");
 
 export {
+  update_user_asset,
   get_user_asset,
   get_owner,
   get_iotex_test_balance,
@@ -391,9 +324,6 @@ export {
   get_report_hash_store_status,
   get_watch_store_status,
   store_reportHash,
-  get_reward_amount,
-  get_next_reward_time,
   store_watch,
-  set_reward_amount,
   transfer_erc20,
 };

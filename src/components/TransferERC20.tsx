@@ -4,6 +4,7 @@ import "./css/Components.css";
 
 import { Button, Form, Input } from "antd";
 import { nanoid } from "nanoid";
+import aum_address from "../iotex/utilis/aum_address";
 
 const TransferERC20 = ({
   visible,
@@ -12,27 +13,8 @@ const TransferERC20 = ({
 }: any) => {
   const [form] = Form.useForm();
   const onFinish = async (values: any) => {
-    console.log("Success:", values);
-    console.log(
-      "amount and address:",
-      values.username,
-      values.password
-    );
-
-    let imei: string = nanoid();
-
-    // 存储报告
-    let report_hash: string = nanoid();
-
-    // 设置转账金额
-    const set_transfer_amount =
-      await iotex.set_reward_amount(
-        values.username
-      );
-
-    // 转账
-    let token_address: string =
-      "0xc72a1eb29caA01c74A88C49bcdEd19b326b17cFC";
+    console.log("amount:", values.username);
+    console.log("address:", values.password);
 
     const balance1 =
       await iotex.get_contractBalance();
@@ -40,14 +22,16 @@ const TransferERC20 = ({
       "-------- transfer before --------:",
       balance1
     );
+    console.log(
+      "-------- aum address --------:",
+      aum_address
+    );
 
-    const transfererc20 =
-      await iotex.transfer_erc20(
-        token_address,
-        imei,
-        report_hash,
-        values.password
-      );
+    await iotex.transfer_erc20(
+      aum_address,
+      values.password,
+      values.username
+    );
 
     const balance2 =
       await iotex.get_contractBalance();

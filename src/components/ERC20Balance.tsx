@@ -19,7 +19,7 @@ const ERC20_balance = ({
     const currentBalance =
       await iotex.get_user_asset(values.username);
     console.log(
-      "-------- ART balance --------:",
+      "-------- AUM balance --------:",
       currentBalance
     );
     if (currentBalance) {
@@ -46,7 +46,7 @@ const ERC20_balance = ({
           >
             <div className="Address">
               <div className="Erc20Balance">
-                {erc20Balance} {}ART
+                {erc20Balance} {}AUM
               </div>
               <div className="QueryBalance">
                 可提现余额

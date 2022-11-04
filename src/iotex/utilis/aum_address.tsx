@@ -1,0 +1,3 @@
+const AUM_ADDRESS =
+  "0x4310c04c3f182f8f996d834895c3890a8cb30961";
+export default AUM_ADDRESS;
