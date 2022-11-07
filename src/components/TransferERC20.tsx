@@ -5,6 +5,7 @@ import "./css/Components.css";
 import { Button, Form, Input } from "antd";
 import { nanoid } from "nanoid";
 import aum_address from "../iotex/utilis/aum_address";
+import Asset from "../pages/Assets";
 
 const TransferERC20 = ({
   visible,
@@ -58,7 +59,10 @@ const TransferERC20 = ({
       onFinishFailed={onFinishFailed}
       autoComplete="off"
     >
-      <div className="Address">提现金额</div>
+      <div className="Asset">
+        <Asset></Asset>
+      </div>
+      <div className="Address">可提余额</div>
       <Form.Item
         className="TransferAmount"
         label="Username"

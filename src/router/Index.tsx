@@ -4,6 +4,7 @@ import Report from "../pages/Report";
 import Watch from "../pages/Watch";
 import Bought from "../pages/Bought";
 import Received from "../pages/Received";
+import Assets from "../pages/Assets";
 import App from "../App";
 
 import {
@@ -35,6 +36,10 @@ const URLRouter = () => {
           ></Route>
           <Route
             path="/"
+            element={<App />}
+          ></Route>
+          <Route
+            path="/assets/:id/:ts/:nonce/:api_key/:signature"
             element={<App />}
           ></Route>
         </Routes>

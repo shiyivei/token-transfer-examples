@@ -11,7 +11,6 @@ const ERC20_balance = ({
   erc20Balance: any;
   setErc20Balance: any;
 }) => {
-  const [form] = Form.useForm();
   const onFinish = async (values: any) => {
     console.log("Success:", values);
     console.log("email:", values.username);
@@ -46,10 +45,10 @@ const ERC20_balance = ({
           >
             <div className="Address">
               <div className="Erc20Balance">
-                {erc20Balance} {}AUM
+                {erc20Balance} AUM
               </div>
               <div className="QueryBalance">
-                可提现余额
+                链上资产
               </div>
             </div>
             <div className="QueryErc20Balance">
@@ -63,7 +62,7 @@ const ERC20_balance = ({
                   },
                 ]}
               >
-                <Input placeholder="请输入邮箱" />
+                <Input placeholder="请输入钱包地址" />
               </Form.Item>
 
               <br />
@@ -78,7 +77,7 @@ const ERC20_balance = ({
                   type="primary"
                   htmlType="submit"
                 >
-                  查询余额
+                  查询链上资产
                 </Button>
               </Form.Item>
             </div>

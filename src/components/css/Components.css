@@ -65,6 +65,19 @@
   top: 10px;
   right: 100px;
 }
+.Asset {
+  font-family: PingFang-SC-Heavy;
+  font-size: 16px;
+  color: #000000;
+  letter-spacing: 0;
+  font-weight: 800;
+  position: relative;
+  top: 32px;
+  left: 175px;
+  width: 140px;
+  /* background-color: red; */
+}
+
 .Remember {
   font-family: PingFang-SC-Heavy;
   font-size: 16px;

@@ -273,28 +273,8 @@ const transfer_erc20 = async (
   console.log("转账已完成");
 };
 
-const moonbeam_web3 = new Web3(
-  "wss://wss.api.moonbase.moonbeam.network"
-);
-
-const block = async () => {
-  moonbeam_web3.eth
-    .subscribe(
-      "newBlockHeaders",
-      (error, result) => {
-        if (error) console.error(error);
-      }
-    )
-    .on("connected", function (subscriptionId) {
-      console.log(subscriptionId);
-    })
-    .on("data", function (log) {
-      console.log(log);
-    });
-};
-
-const get_user_asset = async (email: string) => {
-  let url: string = "api/assets/?email=" + email;
+const get_user_asset = async (id: any) => {
+  let url: string = "api/assets/?id=" + id;
 
   let data;
   await axios.get(url).then((res) => {
