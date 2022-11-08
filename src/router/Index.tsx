@@ -4,7 +4,6 @@ import Report from "../pages/Report";
 import Watch from "../pages/Watch";
 import Bought from "../pages/Bought";
 import Received from "../pages/Received";
-import Assets from "../pages/Assets";
 import App from "../App";
 
 import {

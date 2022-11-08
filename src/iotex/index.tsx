@@ -274,7 +274,10 @@ const transfer_erc20 = async (
 };
 
 const get_user_asset = async (id: any) => {
-  let url: string = "api/assets/?id=" + id;
+  let url: string =
+    "http://localhost:3000/assets/?id=" + id;
+
+  console.log("请求的路径:", url);
 
   let data;
   await axios.get(url).then((res) => {
